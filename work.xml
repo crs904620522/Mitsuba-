@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<scene version="0.5.0" >
+
+	<integrator type="volpath_simple" >
+		<integer name="maxDepth" value="33" />
+		<boolean name="strictNormals" value="true" />
+	</integrator>
+
+
+	<sensor type="perspective" >
+		<float name="fov" value="35" />
+		<transform name="toWorld" >
+			<matrix value="-0.999993 -5.92355e-005 0.00373545 -0.0893585 3.638e-012 0.999874 0.0158556 2.69412 -0.00373592 0.0158555 -0.999867 25.6726 0 0 0 1"/>
+		</transform>
+		<sampler type="independent" >
+			<integer name="sampleCount" value="64" />
+		</sampler>
+		<film type="ldrfilm" >
+			<integer name="width" value="1280" />
+			<integer name="height" value="720" />
+			<string name="fileFormat" value="png" />
+			<string name="pixelFormat" value="rgb" />
+			<float name="gamma" value="2.2" />
+			<boolean name="banner" value="false" />
+			<rfilter type="tent" />
+		</film>
+	</sensor>
+	<emitter type="sunsky">
+		<float name="skyScale" value="3" />
+		<float name="sunScale" value="4" />
+		<transform name="toWorld">
+			<rotate x="1" angle="0"/>
+		</transform>
+	</emitter>
+	<bsdf type="dielectric" id="WaterAir" >
+		<float name="intIOR" value="1.33" />
+		<float name="extIOR" value="1" />
+	</bsdf>
+
+
+	<bsdf type="mixturebsdf" id="semitransparent">
+		<string name="weights" value="0.5,0.5"/>
+			<bsdf type="dielectric"/>
+			<bsdf type="roughdielectric">
+				<float name="alpha" value="0.3"/>
+			</bsdf>
+	</bsdf>
+
+
+
+	<bsdf type="dielectric" id="IceAir" >
+		<float name="intIOR" value="1.31" />
+		<float name="extIOR" value="1" />
+	</bsdf>
+	<bsdf type="dielectric" id="Glass" >
+		<float name="intIOR" value="1.5" />
+		<float name="extIOR" value="1" />
+	</bsdf>
+	<bsdf type="dielectric" id="AirIce" >
+		<float name="intIOR" value="0.763" />
+		<float name="extIOR" value="1" />
+	</bsdf>
+	<bsdf type="diffuse" id="leaf_green">
+		<texture name="reflectance" type="bitmap">
+			<string name="filename" value="./worktexture/022.jpg"/>
+		</texture>
+	</bsdf>
+	<bsdf type="diffuse" id="leaf_yellow">
+		<texture name="reflectance" type="bitmap">
+			<string name="filename" value="./worktexture/maxtree_flower_013_flower.jpg"/>
+		</texture>
+	</bsdf>
+	<bsdf type="diffuse" id="leaf_blue">
+		<texture name="reflectance" type="bitmap">
+			<string name="filename" value="./worktexture/maxtree_flower_006_leaf.jpg"/>
+		</texture>
+	</bsdf>
+	<bsdf type="diffuse" id="stalk_texture">
+		<texture name="reflectance" type="bitmap">
+			<string name="filename" value="./worktexture/bark2.jpg"/>
+		</texture>
+	</bsdf>
+	<bsdf type="diffuse" id="table_texture">
+		<texture name="reflectance" type="bitmap">
+			<string name="filename" value="./worktexture/muwen_9_.jpg"/>
+		</texture>
+	</bsdf>
+
+	<bsdf type="diffuse" id="background_texture">
+		<texture name="reflectance" type="bitmap">
+			<string name="filename" value="./worktexture/huayibu.jpg"/>
+		</texture>
+	</bsdf>
+
+	<bsdf type="diffuse" id="mid_board_texture">
+		<texture name="reflectance" type="bitmap">
+			<string name="filename" value="./worktexture/20170527114907_5928f733ae768.jpg"/>
+		</texture>
+	</bsdf>
+
+	<bsdf type="diffuse" id="ground_texture">
+		<texture name="reflectance" type="checkerboard">
+		</texture>
+	</bsdf>
+
+	<bsdf type="diffuse" id="flower_texture">
+		<texture name="reflectance" type="bitmap">
+			<string name="filename" value="./worktexture/maxtree_flower_012_flower1.jpg"/>
+		</texture>
+	</bsdf>
+
+	<bsdf type="diffuse" id="Luminaire2Material">
+		<rgb name="reflectance" value="0.5 0.5 0.5"/>
+	</bsdf>
+
+
+
+	<!-- 引入隔板物体 -->
+	<shape type="obj" >
+		<string name="filename" value="work/1_leaf1.obj" />
+		<transform name="toWorld" >
+			<translate x="0" y="-15" z="0"/>
+		</transform>
+		<ref id="leaf_yellow" />
+	</shape>
+
+	<shape type="obj" >
+		<string name="filename" value="work/1_leaf2.obj" />
+		<transform name="toWorld" >
+			<translate x="0" y="-15" z="0"/>
+		</transform>
+		<ref id="leaf_green" />
+	</shape>
+
+	<shape type="obj" >
+		<string name="filename" value="work/1_vase1.obj" />
+		<transform name="toWorld" >
+			<translate x="0" y="0" z="0"/>
+		</transform>
+		<ref id="semitransparent" />
+	</shape>
+
+	<shape type="obj" >
+		<string name="filename" value="work/mid_board.obj" />
+		<transform name="toWorld" >
+			<translate x="0" y="0" z="0"/>
+		</transform>
+		<ref id="mid_board_texture" />
+	</shape>
+
+	<shape type="obj" >
+		<string name="filename" value="work/1_leftvase.obj" />
+		<transform name="toWorld" >
+			<translate x="0" y="0" z="0"/>
+		</transform>
+		<ref id="semitransparent" />
+	</shape>
+
+	<!--引入桌子上的物体-->
+
+	<shape type="obj" >
+		<string name="filename" value="work/chamfercy001.obj" />
+		<transform name="toWorld" >
+		</transform>
+		<ref id="table_texture" />
+	</shape>
+
+	<shape type="obj" >
+		<string name="filename" value="work/2_vase3.obj" />
+		<transform name="toWorld" >
+			<translate x="0" y="0" z="0"/>
+
+		</transform>
+		<ref id="semitransparent" />
+	</shape>
+
+	<shape type="obj" >
+		<string name="filename" value="work/2_stalk3.obj" />
+		<transform name="toWorld" >
+			<translate x="0" y="2" z="0"/>
+		</transform>
+		<ref id="stalk_texture" />
+	</shape>
+
+	<shape type="obj" >
+		<string name="filename" value="work/2_leaf3.obj" />
+		<transform name="toWorld" >
+			<translate x="0" y="2" z="0"/>
+		</transform>
+		<ref id="leaf_blue" />
+	</shape>
+
+	<shape type="obj" >
+		<string name="filename" value="work/hua.obj" />
+		<transform name="toWorld" >
+			<translate x="0" y="0" z="-8"/>
+		</transform>
+		<ref id="flower_texture" />
+	</shape>
+
+	<shape type="obj" >
+		<string name="filename" value="work/flower_right.obj" />
+		<transform name="toWorld" >
+			<translate x="0" y="0" z="-2"/>
+		</transform>
+		<ref id="semitransparent" />
+	</shape>
+
+	<shape type="obj" >
+		<string name="filename" value="work/flower_front.obj" />
+		<transform name="toWorld" >
+			<translate x="0" y="0" z="0"/>
+		</transform>
+		<ref id="Glass" />
+	</shape>
+	<shape type="obj" >
+		<string name="filename" value="work/waterglasses.obj" />
+		<transform name="toWorld" >
+			<translate x="20" y="0" z="-10"/>
+		</transform>
+		<ref id="Glass" />
+	</shape>
+
+	<shape type="obj" >
+		<string name="filename" value="work/ice.obj" />
+		<transform name="toWorld" >
+			<translate x="20" y="0" z="-10"/>
+		</transform>
+		<ref id="IceAir" />
+	</shape>
+
+	<shape type="obj" >
+		<string name="filename" value="work/ice_crack.obj" />
+		<transform name="toWorld" >
+			<translate x="20" y="0" z="-10"/>
+		</transform>
+		<ref id="AirIce" />
+	</shape>
+
+<!-- 引入环境框架 背景-->
+
+	<shape type="obj" >
+		<string name="filename" value="work/background.obj" />
+		<transform name="toWorld" >
+			<translate x="0" y="0" z="0"/>
+		</transform>
+		<ref id="background_texture" />
+	</shape>
+
+	<shape type="obj" >
+		<string name="filename" value="work/ground.obj" />
+		<transform name="toWorld" >
+			<translate x="0" y="0" z="0"/>
+		</transform>
+		<ref id="ground_texture" />
+	</shape>
+
+	<shape type="obj" >
+		<string name="filename" value="work/left_surface.obj" />
+		<transform name="toWorld" >
+			<translate x="0" y="0" z="0"/>
+		</transform>
+		<ref id="background_texture" />
+	</shape>
+
+	<shape type="obj" >
+		<string name="filename" value="work/mid_surface.obj" />
+		<transform name="toWorld" >
+			<translate x="30" y="0" z="0"/>
+		</transform>
+		<ref id="background_texture" />
+	</shape>
+
+<!--label -->
+	<bsdf type="diffuse" id="label_texture">
+		<texture name="reflectance" type="bitmap">
+			<string name="filename" value="./worktexture/BUAA.png"/>
+	</texture>
+	</bsdf>
+
+	<shape type="obj" >
+		<string name="filename" value="work/label.obj" />
+		<transform name="toWorld" >
+			<translate x="0" y="0" z="0"/>
+		</transform>
+		<ref id="label_texture" />
+	</shape>
+
+	<bsdf type="diffuse" id="author_texture">
+		<texture name="reflectance" type="bitmap">
+			<string name="filename" value="./worktexture/author.png"/>
+	</texture>
+	</bsdf>
+	<shape type="obj" >
+		<string name="filename" value="work/author.obj" />
+		<transform name="toWorld" >
+			<translate x="0" y="0" z="0"/>
+		</transform>
+		<ref id="author_texture" />
+	</shape>
+
+
+	<bsdf type="diffuse" id="author1_texture">
+		<texture name="reflectance" type="bitmap">
+			<string name="filename" value="./worktexture/author1.png"/>
+	</texture>
+	</bsdf>
+	<shape type="obj" >
+		<string name="filename" value="work/author1.obj" />
+		<transform name="toWorld" >
+			<translate x="0" y="0" z="0"/>
+		</transform>
+		<ref id="author1_texture" />
+	</shape>
+	<shape type="obj" >
+		<string name="filename" value="work/sphere.obj" />
+		<transform name="toWorld" >
+			<translate x="0" y="0" z="0"/>
+		</transform>
+        <emitter type="area">            
+        	<rgb name="radiance" value="80.9155, 80.0563, 80.831"/>       
+        </emitter>
+	</shape>
+</scene>
